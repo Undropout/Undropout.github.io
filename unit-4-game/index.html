@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <style>
+        body {
+            background-image: url("assets/images/gemBackground.jpg");
+            background-repeat: no-repeat;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="text-center">Crystal Counter!</h1>
+        <h2>Each of the gems has a <strong>random</strong> value.</h2>
+        <h3>You must click until you get to the target number listed below.</h3>
+    </div>
+    <div class="text-center">
+
+        <Button id="red-button"></Button>
+
+        <script type="text/javascript">
+            var buttons = document.getElementById("red-button");
+            buttons.innerHTML = '<img src="./assets/images/gemRed.png" />';
+        </script>
+
+        <Button id="blue-button"></Button>
+
+        <script type="text/javascript">
+            var buttons = document.getElementById("blue-button");
+            buttons.innerHTML = '<img src="./assets/images/gemBlue.png" />';
+        </script>
+
+        <Button id="green-button"></Button>
+
+        <script type="text/javascript">
+            var buttons = document.getElementById("green-button");
+            buttons.innerHTML = '<img src="./assets/images/gemGreen.png" />';
+        </script>
+
+        <Button id="yellow-button"></Button>
+
+        <script type="text/javascript">
+            var buttons = document.getElementById("yellow-button");
+            buttons.innerHTML = '<img src="./assets/images/gemYellow.png" />';
+        </script>
+        <!-- <button id="red-button" class="btn btn-primary btn-lg"><h1><span class="fa fa-question"></span></h1></button>
+    <button id="random-button" class="btn btn-primary btn-lg"><h1><span class="fa fa-question"></span></h1></button>
+    <button id="random-button" class="btn btn-primary btn-lg"><h1><span class="fa fa-question"></span></h1></button>
+    <button id="random-button" class="btn btn-primary btn-lg" ><h1><span class="fa fa-question"></span></h1></button> -->
+    </div>
+
+    <script>
+        var targetNumber = 0;
+        var userNumber = 0;
+        var gemRedValue = 0;
+        var gemYellowValue = 0;
+        var gemBlueValue = 0;
+        //Green: The only reliable gem
+        //The rest of the numbers are designed to be WACK as this is somewhat a game of chance.
+        var gemGreenValue = 1;</script>
+    <script>
+        ///Crystal button maker
+        // var imageCrystalRed = $("<img>");
+        // var imageCrystalBlue = $("<img>");
+        // var imageCrystalGreen = $("<img>");
+        // var imageCrystalYellow = $("<img>");
+        // imageCrystalRed.addClass("crystal-image"); imageCrystalBlue.addClass("crystal-image"); imageCrystalGreen.addClass("crystal-image"); imageCrystalYellow.addClass("crystal-image");
+        // imageCrystalBlue.attr("src", "./assets/images/gemBlue.png");
+        // imageCrystalRed.attr("src", "./assets/images/gemRed.png");
+        // imageCrystalGreen.attr("src", "./assets/images/gemGreen.png");
+        // imageCrystalYellow.attr("src", "./assets/images/gemYellow.png");
+
+
+    </script>
+    <h1>Number to Guess:
+        <span id="number-to-guess"></span>
+    </h1>
+    <div id="crystals">
+    </div>
+    <div id="log"></div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script "text/javascript">
+        
+
+
+
+        var targetNumber = Math.floor((Math.random() * 10) + 50);
+        console.log(targetNumber);
+
+        var gemRedValue = targetNumber % 3 * 10 + 6;
+        console.log(gemRedValue);
+        var gemYellowValue = targetNumber - 25;
+
+        var gemBlueValue = targetNumber % 9 + targetNumber % 8 + targetNumber % 7;
+
+        /////Test section to see what kind of numbers I'm making here
+
+        $("#number-to-guess").append("<strong>" + targetNumber + "</strong><br>");
+        /////Test section to see what kind of numbers I'm making here
+        // $("#log").append("<br><br><br>FOR TESTING ONLY<br>-=-=-=-=-=-<br>");
+        // $("#log").append(">RED VALUE: <strong>" + gemRedValue + "</strong><br>");
+        // $("#log").append(">YELLOW VALUE: <strong>" + gemYellowValue + "</strong><br>");
+        // $("#log").append(">BLUE VALUE: <strong>" + gemBlueValue + "</strong><br>");
+        // $("#log").append(">GREEN VALUE: <strong>" + gemGreenValue + "</strong><br>");
+    
+
+
+
+
+/////end test section
+    </script>
+    <script type="text/javascript">
+        /////Incoming button clicker code:
+        var rndOutput = 0;
+        $(document).ready(function () {
+            $("#red-button").on("click", function () {
+                userNumber = userNumber + gemRedValue;
+                $("#log").html("YOUR TOTAL SO FAR: <strong>" + userNumber + "</strong><br>");
+                if(userNumber === targetNumber){
+                alert("You win!")}
+                else if (userNumber >= targetNumber){
+                    alert("                You lose!\r\n(don't)TRY AGAIN\r\n \r\n (hit F5 to play again if you have nothing better to do)")
+                }
+            });
+  });
+  $(document).ready(function () {
+            $("#blue-button").on("click", function () {
+                userNumber = userNumber + gemBlueValue;
+                $("#log").html("YOUR TOTAL SO FAR: <strong>" + userNumber + "</strong><br>");
+                if(userNumber === targetNumber){
+                alert("You win!")}
+                else if (userNumber >= targetNumber){
+                    alert("                You lose!\r\n(don't)TRY AGAIN\r\n \r\n (hit F5 to play again if you have nothing better to do)")
+                }
+            });
+  });
+  $(document).ready(function () {
+            $("#green-button").on("click", function () {
+                userNumber = userNumber + gemGreenValue;
+                $("#log").html("YOUR TOTAL SO FAR: <strong>" + userNumber + "</strong><br>");
+                if(userNumber === targetNumber){
+                alert("You win!")}
+                else if (userNumber >= targetNumber){
+                    alert("                You lose!\r\n(don't)TRY AGAIN\r\n \r\n (hit F5 to play again if you have nothing better to do)")
+                }
+            });
+  });
+  $(document).ready(function () {
+            $("#yellow-button").on("click", function () {
+                userNumber = userNumber + gemYellowValue;
+                $("#log").html("YOUR TOTAL SO FAR: <strong>" + userNumber + "</strong><br>");
+                if(userNumber === targetNumber){
+                alert("You win!")}
+                else if (userNumber >= targetNumber){
+                    alert("                You lose!\r\n(don't)TRY AGAIN\r\n \r\n (hit F5 to play again if you have nothing better to do)")
+                }
+            });
+  });
+
+
+    </script>
+  
+
+    <!--  Broken stuff: 
+        <script>
+    if(userNumber < targetNumber){
+        alert("Current score: " + userNumber + "!!!<br><br>Getting closer!")}
+    </script> -->
+
+</body>
+
+</html>
