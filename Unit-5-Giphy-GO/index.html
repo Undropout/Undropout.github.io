@@ -1,0 +1,146 @@
+<DOCTYPE html>
+        <html>
+    
+        <head>
+            <title>Giphy GO!</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <meta charset="UTF-8">
+            <link href="lib/css/emoji.css" rel="stylesheet">
+        </head>
+    
+        <body>
+          <section>
+            <div class="container">
+              <div class="col-lg-10 col-lg-offset-1 text-center" id="header">
+                <span>Giphy GO!</span>
+              </div>
+            </div>
+          </section>
+          <section id="searchSection">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center" id="searchButtonsContainer">
+                </div>
+              </div>
+            </div>
+          </section>
+            <section id="userInput">
+                
+                <div class="container">
+                   <row>
+                      <p class="col-lg-8 col-lg-offset-2"><br><br>Want 🐭 to 🐹 see 🐰  more 🐶 .gifs? <br> Enter search term to have your own CUSTOM button added for personalized content!<br><br></p>
+                  </row>
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="I'd like to see..." id="submitBox">
+                                <button type="submit" class="btn btn-primary" id="submitTerm">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+    
+            <section id="displaySection">
+              <div class='container'>
+                <div class="col-lg-12" id='showGIFS'>
+    
+                </div>
+              </div>
+            </section>
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script>
+            $(document).ready(function() {
+
+                var gifSearch = {
+                    //Many of which were originally taken from http://picworkflow.com/blog/featured/top-1000-stock-photo-buyers-searches-the-list/ but then I realized that they returned boring gifs. Have some animals instead:
+                    searchTerms: ["🐯Cats🐯", "😸Kittens😸", "🐲Dragon🐲", "🦄Unicorn🦄", "🐕Dog🐕", "🐤Bird🐤", "🐇Rabbit🐇", "🐧Penguin🐧", "🐐Goat🐐", "🦑Squid🦑", "🐟fish🐟", "🐿️Chipmunk🐿️", "🐖pig🐖", "🦊Fox🦊"],
+                    createButtons: function() {
+                        for (var i = 0; i < gifSearch.searchTerms.length; i++) {
+                            var newBttn = $("<button>");
+                            newBttn.attr("data-search", gifSearch.searchTerms[i]);
+                            newBttn.addClass("btn");
+                            newBttn.addClass("searchButtons");
+                            newBttn.text(gifSearch.searchTerms[i]);
+                            $('#searchButtonsContainer').append(newBttn);
+                        }
+                    },
+
+                    //I tried for hours to get some kind of Emoji functionality into the custom buttons. I will look more into an API for this kind of thing later. Or write my own.
+                    addSearchTerms: function(e) {
+                      e.preventDefault();
+                      var userDesiredCategory = $('#submitBox').val();
+            
+                      if (gifSearch.searchTerms.indexOf(userDesiredCategory) < 0 && userDesiredCategory.length > 0) {
+                          gifSearch.searchTerms.push(userDesiredCategory);
+                          var newBttn = $('<button>');
+                          newBttn.attr("data-search", userDesiredCategory);
+                          newBttn.addClass("btn");
+                          newBttn.addClass("searchButtons");
+                          newBttn.text(userDesiredCategory);
+                          $('#searchButtonsContainer').append(newBttn);
+                      }
+            
+                    },
+                    displayResults: function(x) {
+                        $('#showGIFS').empty();
+                        x.preventDefault();
+            
+                        var userQuery = $(this).data('search');
+                        var key = "&api_key=dc6zaTOxFJmzC";
+                        var limit = "&limit=10"
+                        var getURL = "https://api.giphy.com/v1/gifs/search?q=" + userQuery + limit + key;
+                        // console.log();
+                        $.ajax({
+                            url: getURL,
+                            method: "GET"
+                        }).done(function(response) {
+            
+                            for (var i = 0; i < response.data.length; i++) {
+                                var gifContain = $('<div>');
+                                gifContain.addClass('gifContainer');
+                                var animateLink = response.data[i].images["fixed_height"].url;
+                                var stillLink = response.data[i].images["fixed_height_still"].url;
+                                var rating = response.data[i].rating;
+                                console.log(rating);
+                                var ratingSpan = $('<p>');
+                                ratingSpan.addClass('gifRating');
+                                ratingSpan.text("Rating: " + rating);
+                                var newImg = $('<img>');
+                                newImg.attr('src', stillLink);
+                                newImg.attr('data-animate', animateLink);
+                                newImg.attr('data-still', stillLink);
+                                newImg.attr('data-state', "still")
+                                newImg.addClass('gif');
+                                gifContain.prepend(ratingSpan);
+                                gifContain.append(newImg);
+            
+                                $('#showGIFS').append(gifContain);
+                            }
+            
+                            $('.gif').on("click", function() {
+                                var state = $(this).attr("data-state");
+                                if (state === "still") {
+                                    $(this).attr('src', $(this).data("animate"));
+                                    $(this).attr("data-state", "animate");
+                                } else {
+                                    $(this).attr('src', $(this).data("still"));
+                                    $(this).attr("data-state", "still");
+                                }
+                            });
+                        });
+                    },
+            
+                }
+                gifSearch.createButtons();
+            
+            
+            
+                $('#submitTerm').click(gifSearch.addSearchTerms);
+                $(document).on('click', '.searchButtons', gifSearch.displayResults);
+            });</script>
+        </body>
+    
+        </html>
+    
